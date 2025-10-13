@@ -6,6 +6,7 @@ import * as lambda from "aws-cdk-lib/aws-lambda";
 import { RemovalPolicy } from "aws-cdk-lib";
 import { Construct } from "constructs";
 import path from "path";
+import { NodejsFunction } from "aws-cdk-lib/aws-lambda-nodejs";
 // import * as sqs from 'aws-cdk-lib/aws-sqs';
 
 export class ReminderCdkStack extends cdk.Stack {
@@ -13,12 +14,7 @@ export class ReminderCdkStack extends cdk.Stack {
     super(scope, id, props);
 
     // The code that defines your stack goes here
-
-    // example resource
-    // const queue = new sqs.Queue(this, 'ReminderCdkStackQueue', {
-    //   visibilityTimeout: cdk.Duration.seconds(300)
-    // });
-    new s3.Bucket(scope, "Bucket", {
+    new s3.Bucket(this, "Bucket", {
       blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
       encryption: s3.BucketEncryption.S3_MANAGED,
       removalPolicy: RemovalPolicy.DESTROY,
@@ -32,29 +28,31 @@ export class ReminderCdkStack extends cdk.Stack {
       stream: dynamodb.StreamViewType.NEW_AND_OLD_IMAGES,
     });
 
-    new sqs.Queue(scope, "ReminderQueue", {
+    new sqs.Queue(this, "ReminderQueue", {
       fifo: true,
       encryption: sqs.QueueEncryption.KMS_MANAGED,
       contentBasedDeduplication: true,
     });
 
-    new lambda.Function(this, "CreateReminder", {
-      runtime: lambda.Runtime.NODEJS_22_X,
+    new NodejsFunction(this, "CreateReminder", {
+      runtime: lambda.Runtime.NODEJS_20_X,
       handler: "index.handler",
-      code: lambda.Code.fromAsset(
-        path.join(__dirname, "../src/lambdas/createReminder.ts")
-      ),
+      entry: path.join(__dirname, "../src/lambdas/createReminder.ts"),
+      bundling: {
+        forceDockerBundling: false,
+      },
       environment: {
         REMINDERS_TABLE_NAME: remindersTable.tableName,
       },
     });
 
-    new lambda.Function(this, "SendReminder", {
-      runtime: lambda.Runtime.NODEJS_22_X,
-      handler: "index.handler",
-      code: lambda.Code.fromAsset(
-        path.join(__dirname, "../src/lambdas/sendReminder.ts")
-      ),
+    new NodejsFunction(this, "SendReminder", {
+      runtime: lambda.Runtime.NODEJS_20_X,
+      handler: "handler",
+      entry: path.join(__dirname, "../src/lambdas/sendReminder.ts"),
+      bundling: {
+        forceDockerBundling: false,
+      },
       environment: {
         REMINDERS_TABLE_NAME: remindersTable.tableName,
       },
