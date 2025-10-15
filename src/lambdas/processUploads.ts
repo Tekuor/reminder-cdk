@@ -8,16 +8,16 @@ const docClient = DynamoDBDocumentClient.from(client);
 exports.handler = async (event: S3Event) => {
   for (const record of event.Records) {
     const id = record.s3.object.key;
-    const fileUrl = `https://${record.s3.bucket.name}.s3.amazonaws.com/${record.s3.object.key}`;
     await docClient.send(
       new UpdateCommand({
         TableName: process.env.REMINDERS_TABLE_NAME,
         Key: {
           id,
         },
-        UpdateExpression: "SET fileUrl = :fileUrl",
+        UpdateExpression: "SET fileKey = :fileKey, fileStatus = :fileStatus",
         ExpressionAttributeValues: {
-          ":fileUrl": fileUrl,
+          ":fileKey": id,
+          ":fileStatus": "uploaded",
         },
       })
     );
