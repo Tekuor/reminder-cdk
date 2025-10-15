@@ -9,7 +9,7 @@
     "watch": "tsc -w",
     "test": "jest",
     "predeploy": "npm run build",
-    "deploy": "cdk deploy --profile kuor"
+    "deploy": "cdk deploy --profile awsprofile"
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.155",
@@ -24,8 +24,15 @@
   },
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.908.0",
+    "@aws-sdk/client-s3": "^3.910.0",
+    "@aws-sdk/client-scheduler": "^3.910.0",
+    "@aws-sdk/client-ses": "^3.910.0",
+    "@aws-sdk/lib-dynamodb": "^3.910.0",
+    "@aws-sdk/s3-request-presigner": "^3.910.0",
     "aws-cdk-lib": "^2.215.0",
     "aws-lambda": "^1.0.7",
-    "constructs": "^10.4.2"
+    "constructs": "^10.4.2",
+    "dotenv": "^17.2.3",
+    "ulid": "^3.0.1"
   }
 }
