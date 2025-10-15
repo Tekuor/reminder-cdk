@@ -30,9 +30,9 @@ It’s built using **AWS CDK**, **Lambda**, **DynamoDB**, **S3**, and **SES**.
 
 ## Steps
 
-1. npm install
-2. cdk bootstrap --profile awsprofile (first time only)
-3. npm run deploy
+1. `npm install`
+2. `cdk bootstrap --profile awsprofile` (first time only)
+3. `npm run deploy`
    After deployment, you’ll see a Function URL for the CreateReminder Lambda in the terminal. Use it to add new reminders.
 
 ## Create a Reminder
