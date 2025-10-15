@@ -43,7 +43,7 @@ Content-Type: application/json
 
 {
   "title": "Hair Stylist Appointment",
-  "description": "Wash and styl hair",
+  "description": "Wash and style hair",
   "dueDate": "2025-10-16T08:00:00Z",
   "email": "me@gmail.com"
 }
