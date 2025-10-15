@@ -1,14 +1,19 @@
-# Welcome to your CDK TypeScript project
+# Reminder CDK Stack
 
-This is a blank project for CDK development with TypeScript.
+This project sets up a small **serverless reminder system** that lets users add reminders, upload files, and receive email notifications at scheduled times.  
+It’s built using **AWS CDK**, **Lambda**, **DynamoDB**, **S3**, and **SES**.
 
-The `cdk.json` file tells the CDK Toolkit how to execute your app.
+---
 
-## Useful commands
+## Resources
 
-* `npm run build`   compile typescript to js
-* `npm run watch`   watch for changes and compile
-* `npm run test`    perform the jest unit tests
-* `npx cdk deploy`  deploy this stack to your default AWS account/region
-* `npx cdk diff`    compare deployed stack with current state
-* `npx cdk synth`   emits the synthesized CloudFormation template
+| Resource                  | Purpose                                                                                        |
+| ------------------------- | ---------------------------------------------------------------------------------------------- |
+| **S3 Bucket**             | Stores uploaded files securely.                                                                |
+| **DynamoDB Table**        | Stores reminder details such as title, description, due date, and file information.            |
+| **CreateReminder Lambda** | Creates reminders, saves it in DynamoDB, and schedules email notifications.                    |
+| **SendReminder Lambda**   | Sends reminder emails through Amazon SES.                                                      |
+| **ProcessUploads Lambda** | Runs when a file is uploaded and updates the reminder in DynamoDB.                             |
+| **Scheduler Role**        | Grants EventBridge Scheduler permission to invoke the SendReminder Lambda at the correct time. |
+
+---
