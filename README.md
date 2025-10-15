@@ -20,7 +20,7 @@ It’s built using **AWS CDK**, **Lambda**, **DynamoDB**, **S3**, and **SES**.
 
 # How to Deploy
 
-## Prerequisites
+## Requirements
 
 - Node.js 18+
 - AWS CDK installed globally
